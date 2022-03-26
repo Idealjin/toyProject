@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment/>
+	<entry key = "newNote">
+	   INSERT
+	     INTO TBL_MNOTE A
+	   (
+	     A.NO
+	   , A.TITLE
+	   , A.CONTENT
+	   , A.CREATE_DATE
+	   )
+	   VALUES
+	   (
+	   	 SEQ_NO2.NEXTVAL
+	   , ?
+	   , ?
+	   , ?
+	   )
+	 </entry>
+	 <entry key = "selNote">
+	     SELECT
+	     	    *
+	       FROM TBL_MNOTE A
+	 </entry>
+	 <entry key = "updateNote">
+	     UPDATE
+             TBL_MNOTE A
+          SET A.TITLE = ?
+            , A.CONTENT = ?
+        WHERE A.NO = ?    
+	 </entry>
+	  <entry key = "selNoteNo">
+	     SELECT
+	     	    *
+	       FROM TBL_MNOTE A
+	      WHERE A.NO = ?
+	 </entry>
+	 <entry key = "delNote">
+	     DELETE
+	       FROM TBL_MNOTE A
+	      WHERE A.NO = ? 
+	 </entry>
+	 <entry key = "newNoteRecord">
+	   INSERT
+	     INTO TBL_RECORD A
+	   (
+	     A.NO
+	   , A.AUTHOR
+	   , A.NOTE_DATE
+	   , A.STATE
+	   )
+	   VALUES
+	   (
+	     SEQ_NO.NEXTVAL
+	   , ?
+	   , ?
+	   , ?
+	   )
+	 </entry>
+	 <entry key = "updateRecord">
+	     UPDATE
+             TBL_RECORD A
+          SET A.NOTE_DATE = ?
+            , A.STATE = ?
+        WHERE A.NO = ?    
+	 </entry>
+	 <entry key = "delRecord">
+	     UPDATE
+             TBL_RECORD A
+          SET A.NOTE_DATE = ?
+            , A.STATE = ?
+        WHERE A.NO = ?    
+	 </entry>
+</properties>
