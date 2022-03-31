@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ohgiraffers.spring.notice.model.dao.NoticeMapper">
+  	
+  <resultMap type="NoticeDTO" id="noticeResultMap">
+		<id property="no" column="NOTICE_NO"/>
+		<result property="title" column="NOTICE_TITLE"/>
+		<result property="body" column="NOTICE_BODY"/>
+		<result property="writerMemberNo" column="NOTICE_WRITER_MEMBER_NO"/>
+		<result property="count" column="NOTICE_COUNT"/>
+		<result property="createdDate" column="CREATED_DATE"/>
+		<result property="status" column="NOTICE_STATUS"/>
+		
+		<association property="writer" resultMap="memberResultMap"/>
+	</resultMap>
+	
+	<resultMap type="MemberDTO" id="memberResultMap">
+		<id property="no" column="MEMBER_NO"/>
+		<result property="id" column="MEMBER_ID"/>
+		<result property="pwd" column="MEMBER_PWD"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="role" column="MEMBER_ROLE"/>
+		<result property="status" column="MEMBER_STATUS"/>
+	</resultMap>
+  	
+  	<select id="selectAllNoticeList" resultMap="noticeResultMap">
+  		SELECT /* com.ohgiraffers.spring.notice.model.dao.NoticeMapper#selectAllNoticeList() */
+  		       A.NOTICE_NO
+  		     , A.NOTICE_TITLE
+  		     , A.NOTICE_BODY
+  		     , A.NOTICE_WRITER_MEMBER_NO
+  		     , B.NICKNAME
+  		     , A.NOTICE_COUNT
+  		     , A.CREATED_DATE
+  		  FROM TBL_NOTICE A
+  		  JOIN TBL_MEMBER B ON(A.NOTICE_WRITER_MEMBER_NO = B.MEMBER_NO)
+  		 WHERE A.NOTICE_STATUS = 'Y'
+  		 ORDER BY A.NOTICE_NO DESC 
+  	
+  	</select>
+  	
+  	<insert id="insertNotice" parameterType="NoticeDTO">
+  		INSERT /* com.ohgiraffers.spring.notice.model.dao.NoticeMapper#insertNotice() */
+  		  INTO TBL_NOTICE A
+  		(
+  		  A.NOTICE_NO
+  		, A.NOTICE_TITLE
+  		, A.NOTICE_BODY
+  		, A.NOTICE_WRITER_MEMBER_NO
+  		)
+  		VALUES
+  		(
+  		  SEQ_NOTICE_NO.NEXTVAL
+  		, #{ title }
+  		, #{ body }
+  		, #{ writerMemberNo }
+  		)
+  	</insert>
+  	
+  	<update id="incrementNoticeCount" parameterType="_int">
+  		UPDATE /* com.ohgiraffers.spring.notice.model.dao.NoticeMapper#incrementNoticeCount()*/
+  		       TBL_NOTICE A
+  		   SET A.NOTICE_COUNT = (SELECT B.NOTICE_COUNT
+  		                           FROM TBL_NOTICE B
+  		                          WHERE B.NOTICE_NO = #{ no }
+  		                        ) + 1
+  		 WHERE A.NOTICE_NO = #{ no } 
+  	</update>
+  	
+  	<select id="selectNoticeDetail" parameterType="_int" resultMap="noticeResultMap">
+  	    SELECT /* com.ohgiraffers.spring.notice.model.dao.NoticeMapper#selectNoticeDetail() */
+  		       A.NOTICE_NO
+  		     , A.NOTICE_TITLE
+  		     , A.NOTICE_BODY
+  		     , A.NOTICE_WRITER_MEMBER_NO
+  		     , B.NICKNAME
+  		     , A.NOTICE_COUNT
+  		     , A.CREATED_DATE
+  		  FROM TBL_NOTICE A
+  		  JOIN TBL_MEMBER B ON(A.NOTICE_WRITER_MEMBER_NO = B.MEMBER_NO)
+  		 WHERE A.NOTICE_STATUS = 'Y'
+  		   AND A.NOTICE_NO = #{ no }
+  	</select>
+  	
+  	<update id="updateNotice" parameterType="NoticeDTO">
+  		UPDATE /* com.ohgiraffers.spring.notice.model.dao.NoticeMapper#updateNotice() */
+  		       TBL_NOTICE A
+  		   SET A.NOTICE_TITLE = #{ title }
+  		     , A.NOTICE_BODY = #{ body }
+  		 WHERE A.NOTICE_NO = #{ no }
+  	</update>
+  	
+  	<delete id="deleteNotice" parameterType="_int">
+  		DELETE /* com.ohgiraffers.spring.notice.model.dao.NoticeMapper#deleteNotice() */
+  		  FROM TBL_NOTICE A
+  		 WHERE A.NOTICE_NO = #{ no }
+  	</delete>
+  </mapper>

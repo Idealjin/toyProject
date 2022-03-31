@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ohgiraffers.spring.board.model.dao.BoardMapper">
+  
+	<select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+  		SELECT /* com.ohgiraffers.spring.board.model.dao.BoardMapper#selectTotalCount() */
+  			   COUNT(*)
+  	      FROM TBL_BOARD A
+  	      <if test="searchCondition == 'category'">
+  	      JOIN TBL_CATEGORY B ON(A.CATEGORY_CODE = B.CATEGORY_CODE)
+  	      </if>
+  	      <if test="searchCondition == 'writer'">
+  	      JOIN TBL_MEMBER B ON(A.BOARD_WRITER_MEMBER_NO = B.MEMBER_NO)
+  	      </if>
+  	      <where>
+  	      	<if test="searchCondition == 'category'">
+  	      		B.CATEGORY_NAME = #{ searchValue }
+  	      	</if>
+  	      	<if test="searchCondition == 'writer'">
+  	      		B.NICKNAME LIKE '%' || #{ searchValue } || '%'
+  	      	</if>
+  	      	 	<if test="searchCondition == 'title'">
+  	      		A.BOARD_TITLE LIKE '%' || #{ searchValue } || '%'
+  	      	</if>
+  	      	 	<if test="searchCondition == 'content'">
+  	      		A.BOARD_BODY LIKE '%' || #{ searchValue } || '%'
+  	      	</if>
+  	          AND A.BOARD_STATUS = 'Y' 
+  	      </where>
+  	</select>
+
+  
+  
+  </mapper>

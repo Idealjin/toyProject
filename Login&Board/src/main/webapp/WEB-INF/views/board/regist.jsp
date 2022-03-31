@@ -1,0 +1,56 @@
+<jsp:directive.page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<jsp:include page="../common/menubar.jsp"/>
+	
+	<div class="outer outer-board-insert">
+		<br>
+		<h2 align="center">게시판 작성</h2>
+		<div class="table-area">
+			<form action="${ pageContext.servletContext.contextPath }/board/regist" method="post">
+				<table>
+					<tr>
+						<td>분야</td>
+						<td>
+							<select name="categoryCode">
+								<option value="10">공통</option>
+								<option value="20">운동</option>
+								<option value="30">등산</option>
+								<option value="40">낚시</option>
+								<option value="50">게임</option>
+								<option value="60">요리</option>
+								<option value="70">기타</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>제목 </td>
+						<td colspan="3"><input type="text" name="title" style="width:400px;"></td>
+					</tr>
+					<tr>
+						<td>내용 </td>
+						<td colspan="3">
+							<textarea name="body" cols="60" rows="15" style="resize:none;"></textarea>
+						</td>
+					</tr>
+				</table>
+				<br>
+				<div align="center">
+					<button type="button" class="btn btn-pk" onclick="location.href='${ pageContext.servletContext.contextPath }/board/list'">돌아가기</button>
+					<button type="reset" class="btn btn-or" >작성내용 되돌리기</button>
+					<button type="submit" class="btn btn-bs" >등록하기</button>
+				</div>
+				
+			</form>
+			
+		</div>
+	</div>
+</body>
+</html>

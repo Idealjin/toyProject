@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <configuration>
+  		
+  		<!-- typeAliases 설정은 반드시 관련 클래스가 추가 될 때마다 하나씩 추가할 것! -->
+  		<typeAliases>
+  			<typeAlias alias="MemberDTO" type="com.ohgiraffers.spring.member.model.dto.MemberDTO"/>
+  			<typeAlias alias="NoticeDTO" type="com.ohgiraffers.spring.notice.model.dto.NoticeDTO"/>
+  			<typeAlias alias="BoardDTO" type="com.ohgiraffers.spring.board.model.dto.BoardDTO"/>
+  		</typeAliases>
+  </configuration>
+  

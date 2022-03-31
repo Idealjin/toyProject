@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- sqlSessionTemplate가 필요한 경우(옛날방식) -->
+  <!--   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+		</bean> -->
+		
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@oracle_high?TNS_ADMIN=/Volumes/SSDONE/Space/himedia/dev/00_installFiles/Wallet_oracle"/>
+		<property name="username" value="SPRING"/>
+		<property name="password" value="spiN12341234"/>
+		<property name="defaultAutoCommit" value="false"/>
+	</bean>
+	
+		<!-- 스프링 트랜잭션 처리 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" rollback-for="Exception" />
+			<tx:method name="select*" read-only="true" rollback-for="Exception" />
+			<tx:method name="regist*" rollback-for="Exception" propagation="REQUIRED" isolation="READ_COMMITTED"/>
+			<tx:method name="modify*" rollback-for="Exception" propagation="REQUIRED" isolation="READ_COMMITTED" />
+			<tx:method name="remove*" rollback-for="Exception" propagation="REQUIRED" isolation="READ_COMMITTED" />
+		</tx:attributes>
+	</tx:advice> 
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* com.ohgiraffers.spring..*ServiceImpl.*(..))" id="serviceMethod"/>
+		<aop:advisor id="transactionAdvisor" advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+	</aop:config>
+	
+	<!-- 매퍼 파일 base-package 설정(미리 다 등록하지 말고 관련 패키지를 만들고 매퍼를 추구할 때마다 하나씩 추가하자) -->
+	<mybatis-spring:scan base-package="com.ohgiraffers.spring.member.model.dao,
+									   com.ohgiraffers.spring.notice.model.dao,
+									   com.ohgiraffers.spring.board.model.dao"/>
+</beans>

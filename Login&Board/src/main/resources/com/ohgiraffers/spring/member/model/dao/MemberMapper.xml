@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ohgiraffers.spring.member.model.dao.MemberMapper">
+  	
+  	<resultMap type="MemberDTO" id="memberResultMap">
+		<id property="no" column="MEMBER_NO"/>
+		<result property="id" column="MEMBER_ID"/>
+		<result property="pwd" column="MEMBER_PWD"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="role" column="MEMBER_ROLE"/>
+		<result property="status" column="MEMBER_STATUS"/>
+	</resultMap>
+  
+  	<select id="selectMemberById" parameterType="string" resultType="java.lang.String">
+  		SELECT /* com.ohgiraffers.spring.member.model.dao.MemberMapper#selectMemberById() */
+  		       A.MEMBER_ID
+  		  FROM TBL_MEMBER A
+  		 WHERE A.MEMBER_STATUS = 'Y'
+  		   AND A.MEMBER_ID = #{ userId }
+  	</select>
+  	
+  	<insert id="insertMember" parameterType="MemberDTO">
+  		 INSERT /* com.ohgiraffers.spring.member.model.dao.MemberMapper#insertMember() */
+          INTO TBL_MEMBER A
+        (
+          A.MEMBER_NO
+        , A.MEMBER_ID
+        , A.MEMBER_PWD
+        , A.NICKNAME
+        , A.PHONE
+        , A.EMAIL
+        , A.ADDRESS
+        )
+        VALUES 
+        (
+          SEQ_MEMBER_NO.NEXTVAL
+        , #{ id }
+        , #{ pwd }
+        , #{ nickname }
+        , #{ phone }
+        , #{ email }
+        , #{ address }
+        )
+  	</insert>
+  	
+  	<select id="selectEncryptedPwd" resultType="java.lang.String">
+  		SELECT /* com.ohgiraffers.spring.member.model.dao.MemberMapper#selectEncryptedPwd() */
+  		       A.MEMBER_PWD
+  		  FROM TBL_MEMBER A
+  		 WHERE A.MEMBER_STATUS = 'Y'
+  		   AND A.MEMBER_ID = #{ id }
+  	</select>
+  	
+  	<select id="selectMember" resultMap="memberResultMap">
+  		SELECT /* com.ohgiraffers.spring.member.model.dao.MemberMapper#selectMember() */
+			   A.MEMBER_NO
+		     , A.MEMBER_ID
+		     , A.NICKNAME
+		     , A.PHONE
+		     , A.EMAIL
+		     , A.ADDRESS
+		     , A.ENROLL_DATE
+		     , A.MEMBER_ROLE
+		     , A.MEMBER_STATUS
+		 FROM  TBL_MEMBER A
+		WHERE  A.MEMBER_STATUS = 'Y'
+		  AND  A.MEMBER_ID = #{ id }
+  	</select>
+  	
+  	<update id="updateMember">
+  		UPDATE /* com.ohgiraffers.spring.member.model.dao.MemberMapper#updateMember() */
+		       TBL_MEMBER A
+		   SET A.MEMBER_PWD = #{ pwd }
+		     , A.NICKNAME = #{ nickname }
+		     , A.PHONE = #{ phone }
+		     , A.EMAIL = #{ email }
+		     , A.ADDRESS = #{ address }
+		 WHERE A.MEMBER_STATUS = 'Y'
+		   AND A.MEMBER_ID = #{ id }
+  	</update>
+  	
+  	<update id="deleteMember">
+  		UPDATE /* com.ohgiraffers.spring.member.model.dao.MemberMapper#deleteMember() */
+  		  	   TBL_MEMBER A
+  		   SET A.MEMBER_STATUS = 'N'
+  		 WHERE A.MEMBER_STATUS = 'Y'
+  		   AND A.MEMBER_ID = #{ id }   
+  	</update>
+  </mapper>
