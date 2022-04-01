@@ -27,4 +27,23 @@
 	
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	
+	<!-- Jackson 라이브러리로 ajax시에 @ResponseBody를 사용하고 자바 객체를 핸들러 메소드에서 반환 시 
+		자바 객체를 JSON문자열로 변환시켜주는 메세지 컨버터 추가-->
+		<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>	
+	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jacksonMessageConverter"/>
+			</beans:list>
+		</beans:property>
+	</beans:bean> 
+	 
+		<!-- 파일 업로드를 위한 빈 설정 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10000000"/> <!-- 대략 10Mbyte 용량의 파일 업로드만 허용 -->
+	</beans:bean>
+		
+	 
+	
 </beans:beans>

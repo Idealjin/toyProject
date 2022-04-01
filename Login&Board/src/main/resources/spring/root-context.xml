@@ -53,4 +53,5 @@
 	<mybatis-spring:scan base-package="com.ohgiraffers.spring.member.model.dao,
 									   com.ohgiraffers.spring.notice.model.dao,
 									   com.ohgiraffers.spring.board.model.dao"/>
+	
 </beans>

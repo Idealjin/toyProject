@@ -9,6 +9,9 @@
   			<typeAlias alias="MemberDTO" type="com.ohgiraffers.spring.member.model.dto.MemberDTO"/>
   			<typeAlias alias="NoticeDTO" type="com.ohgiraffers.spring.notice.model.dto.NoticeDTO"/>
   			<typeAlias alias="BoardDTO" type="com.ohgiraffers.spring.board.model.dto.BoardDTO"/>
+  			<typeAlias alias="CategoryDTO" type="com.ohgiraffers.spring.board.model.dto.CategoryDTO"/>
+  			<typeAlias alias="AttachmentDTO" type="com.ohgiraffers.spring.board.model.dto.AttachmentDTO"/>
+  			<typeAlias alias="ReplyDTO" type="com.ohgiraffers.spring.board.model.dto.ReplyDTO"/>
   		</typeAliases>
   </configuration>
   

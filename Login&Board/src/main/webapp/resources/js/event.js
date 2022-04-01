@@ -60,10 +60,19 @@ window.onload = function(){
 		}
 	}
 	
+	if(document.getElementById("writeBoard")) {
+		const $writeBoard = document.getElementById("writeBoard");
+		$writeBoard.onclick = function() {
+			location.href = "/spring/board/regist";
+		}
+	}
 	
-	
-	
-	
+	if(document.getElementById("writeThumbnail")) {
+		const $writeThumbnail = document.getElementById("writeThumbnail");
+		$writeThumbnail.onclick = function() {
+			location.href = "/spring/thumbnail/regist";
+		}
+	}
 	
 	
 }

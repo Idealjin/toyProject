@@ -105,6 +105,7 @@
 								$bodyTd = $("<td>").text(data[index].body);
 								$writerTd = $("<td>").text(data[index].writer.nickname);
 								$createDateTd = $("<td>").text(data[index].createdDate);
+								//로그인멤버 넘버랑 작성자 넘버랑 일치하면 댓글삭제버튼 보이게
 								if(data[index].writer.no == ${sessionScope.loginMember.no}){
 									$removeTd = $("<td>").append("<button type='button' onclick='removeReply(" + data[index].no + ")'>댓글삭제</button>");
 								} else {
